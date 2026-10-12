@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ระบบประเมินสภาพบ้านก่อนรีโนเวท</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8ebed;--card:#fff;--ink:#15222b;--mute:#566872;--line:#d3dae0;--acc:#1d4f91;--acc-t:#fff;--bp:#1b4a85;--hi:#f4b400;
+--s0:#2e7d4f;--s1:#996d00;--s2:#c4560f;--s3:#c62f2f;--na:#7d8b93;--hh:58px;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e161b;--card:#172229;--ink:#e7eef2;--mute:#94a6b0;--line:#2a3a44;--acc:#78aef5;--acc-t:#07182c;--bp:#12345e;--s0:#4cb87a;--s1:#e0b030;--s2:#f08a45;--s3:#f06a6a}}
+:root[data-theme="dark"]{--bg:#0e161b;--card:#172229;--ink:#e7eef2;--mute:#94a6b0;--line:#2a3a44;--acc:#78aef5;--acc-t:#07182c;--bp:#12345e;--s0:#4cb87a;--s1:#e0b030;--s2:#f08a45;--s3:#f06a6a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "IBM Plex Sans Thai","Noto Sans Thai",Tahoma,sans-serif}
+a{color:var(--acc)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px 32px}
+h1,h2{line-height:1.3}
+.hint{color:var(--mute);font-size:.86rem}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;gap:12px;min-height:var(--hh);padding:8px 16px;margin:0 -16px;background:var(--card);border-bottom:1px solid var(--line)}
+.brand{margin-right:auto;display:flex;align-items:center;gap:8px;font-weight:700;white-space:nowrap}
+.brand svg{width:28px;height:28px;color:var(--acc)}
+.chip{padding:3px 12px;border-radius:999px;background:var(--bg);border:2px solid var(--c,var(--line));font-size:.86rem;white-space:nowrap}
+.who{display:flex;gap:6px;align-items:center}.who .btn{padding:6px 10px;margin:0;font-size:.85rem}
+@media(max-width:900px){.brand b{display:none}}@media(max-width:640px){#bu{display:none}}
+nav{display:flex;gap:8px;margin:16px 0 4px}
+nav button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;font:inherit;font-weight:500;cursor:pointer}
+nav button i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-size:.8rem}
+nav button.on{background:var(--acc);color:var(--acc-t);border-color:var(--acc)}nav button.on i{background:var(--hi);color:#15222b}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+label.f{display:block;font-size:.88rem;color:var(--mute)}
+input,select,textarea{width:100%;padding:10px 12px;margin-top:4px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:60px;resize:vertical}
+.btn{padding:11px 18px;border:0;border-radius:10px;background:var(--acc);color:var(--acc-t);font:inherit;font-weight:500;cursor:pointer;margin:4px 6px 0 0}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.prog{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:8px 0 0}.prog i{display:block;height:100%;background:var(--hi);width:0;transition:width .3s}
+.split{display:block}
+#cnav{display:flex;gap:6px;overflow-x:auto;position:sticky;top:calc(var(--hh) + env(safe-area-inset-top,0px));background:var(--bg);padding:10px 0;z-index:5}
+#cnav a{flex:none;display:flex;gap:8px;align-items:center;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);text-decoration:none;font-size:.88rem}
+#cnav a em{font-style:normal;color:var(--mute);font-size:.8rem}#cnav a.done{border-color:var(--s0)}#cnav a.done em{color:var(--s0);font-weight:700}
+@media(min-width:900px){.split{display:grid;grid-template-columns:220px 1fr;gap:24px}#cnav{flex-direction:column;overflow:visible;align-self:start;top:calc(var(--hh) + 16px + env(safe-area-inset-top,0px));padding:14px 0 0}#cnav a{border-radius:10px;justify-content:space-between}}
+.cat.card{background:transparent;border:0;padding:0;margin:20px 0 0;scroll-margin-top:130px}
+.cat h2{font-size:1.15rem;margin:0}.cat .w{color:var(--mute);font-size:.84rem;margin-bottom:4px}
+.it{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.it[data-s="0"]{border-left-color:var(--s0)}.it[data-s="1"]{border-left-color:var(--s1)}.it[data-s="2"]{border-left-color:var(--s2)}.it[data-s="3"]{border-left-color:var(--s3)}.it[data-s="na"]{border-left-color:var(--na)}
+.it b{font-weight:500}
+.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+@media(max-width:560px){.seg{grid-template-columns:repeat(3,1fr)}}
+.seg button{min-height:42px;padding:6px 4px;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;font:inherit;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.seg button::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--dot,var(--na))}
+.seg [data-v="0"]{--dot:var(--s0)}.seg [data-v="1"]{--dot:var(--s1)}.seg [data-v="2"]{--dot:var(--s2)}.seg [data-v="3"]{--dot:var(--s3)}
+.seg button.on{color:#fff;border-color:transparent;font-weight:700}.seg button.on::before{background:#fff}
+.seg button[data-v="0"].on{background:var(--s0)}.seg button[data-v="1"].on{background:var(--s1)}.seg button[data-v="2"].on{background:var(--s2)}.seg button[data-v="3"].on{background:var(--s3)}.seg button[data-v="na"].on{background:var(--na)}
+.det{display:grid;grid-template-columns:1fr 160px;gap:10px;margin-top:10px}@media(max-width:520px){.det{grid-template-columns:1fr}}
+.add{display:flex;gap:8px;margin-top:12px}.add input{margin:0}.add .btn{margin:0;white-space:nowrap}
+.score{display:flex;gap:22px;align-items:center;flex-wrap:wrap;border-top:5px solid var(--hi)}
+.ring{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;font-size:2.6rem;font-weight:700;flex:none}
+.ring span{background:var(--card);width:114px;height:114px;border-radius:50%;display:grid;place-items:center}
+.verdict{flex:1;min-width:220px}.verdict h2{margin:0 0 4px;font-size:1.3rem}
+.alert{border-left:5px solid var(--s3);padding:10px 12px;background:var(--bg);border-radius:8px;margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:500}td.n,th.n{text-align:right;white-space:nowrap}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;color:#fff;font-size:.8rem}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:.9rem}.bar .t{width:150px;flex:none}.bar .b{flex:1;height:10px;background:var(--line);border-radius:5px;overflow:hidden}.bar .b i{display:block;height:100%}
+.scroll{overflow-x:auto}
+#projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}#projects>.card{margin:0}#projects>.card:first-child{grid-column:1/-1;margin-top:16px}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:0;margin:16px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.blue{background-color:var(--bp);background-image:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px);background-size:24px 24px;color:#fff;padding:32px 28px}
+.blue svg{width:100%;max-width:340px;display:block;margin-bottom:18px;color:#fff}
+.blue h1{margin:0 0 8px;font-size:1.6rem}.blue p{margin:0;max-width:34ch;opacity:.92}
+.formside{padding:32px 28px;display:flex;flex-direction:column;justify-content:center}.formside .card{border:0;padding:0;margin:0 0 12px}
+#lf .btn{width:100%;padding:13px;margin:6px 0 0}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.blue{padding:24px 20px}.formside{padding:22px 20px}}
+#tt{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:20px;z-index:20}
+.ph{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ph .btn{margin:0;padding:8px 14px}
+.th{position:relative;display:inline-block;max-width:100%}.th img{width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:var(--bg);display:block;cursor:zoom-in}.th img.big{width:100%;max-width:520px;height:auto}
+.th button{position:absolute;top:3px;right:3px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;line-height:1}
+img.sm{width:64px;height:64px;object-fit:cover;border-radius:6px;margin-top:4px}
+.seg2{display:flex;gap:6px;margin-bottom:14px}.seg2 button{flex:1;padding:9px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;font:inherit;cursor:pointer}.seg2 button.on{background:var(--acc);color:var(--acc-t);border-color:var(--acc)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{.top,nav,.noprint,#cnav{display:none!important}body{background:#fff;color:#000}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header id="bar" class="top noprint" hidden><div class="brand"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M3 15 16 4l13 11M7 13v15h18V13"/><path d="M13 28v-8h6v8" stroke="#f4b400"/></svg><b>ระบบประเมินสภาพบ้านก่อนรีโนเวท</b></div><span id="live" class="chip" hidden></span><div class="who"><span id="bu" class="hint"></span><button class="btn g" id="bk" hidden>โครงการทั้งหมด</button><button class="btn g" id="lo">ออกจากระบบ</button></div></header>
+<section id="login"><div class="hero"><div class="blue"><svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M40 100 160 30l120 70M60 92v78h200V92"/><rect x="146" y="124" width="28" height="46"/><rect x="80" y="112" width="34" height="28"/><rect x="206" y="112" width="34" height="28"/><path d="M196 94l-8 18 10 8-9 20 7 12" stroke="#f4b400" stroke-width="3"/><path d="M60 186h200M60 180v12M260 180v12" opacity=".8"/><text x="160" y="182" text-anchor="middle" fill="currentColor" stroke="none" font-size="11" font-family="monospace" style="paint-order:stroke;stroke:#1b4a85;stroke-width:6px">8.40 ม.</text></svg>
+<h1>ระบบประเมินสภาพบ้านก่อนรีโนเวท</h1><p>ตรวจให้ครบก่อนลงมือรื้อ บันทึกสภาพบ้านทีละหมวด ประเมินค่าซ่อม และจัดลำดับงานก่อนเรียกผู้รับเหมา</p></div>
+<div class="formside"><div class="card"><h2 style="margin:0 0 6px;font-size:1.25rem">เข้าสู่ระบบ</h2><p id="lm" class="hint">กำลังตรวจสอบบัญชี...</p><div id="lf"></div></div>
+<p class="hint">ไม่มีการเก็บรหัสผ่านในหน้านี้ ระบบใช้ตัวตนจากบัญชี Claude และเก็บโครงการแยกเป็นส่วนตัวต่อบัญชี</p></div></div></section>
+<section id="projects" hidden></section>
+<div id="app" hidden>
+<nav role="tablist">
+<button data-tab="info" class="on"><i>1</i>ข้อมูลบ้าน</button>
+<button data-tab="check"><i>2</i>ตรวจสภาพ</button>
+<button data-tab="sum"><i>3</i>สรุปผล</button>
+</nav>
+
+<section id="info">
+<div class="card"><div class="grid">
+<label class="f">ชื่อโครงการ / เจ้าของบ้าน<input data-i="name"></label>
+<label class="f">ที่อยู่<input data-i="addr"></label>
+<label class="f">ผู้ตรวจ<input data-i="who"></label>
+<label class="f">วันที่ตรวจ<input type="date" data-i="date"></label>
+<label class="f">ประเภทบ้าน<select data-i="type"><option>บ้านเดี่ยว</option><option>ทาวน์เฮาส์/ทาวน์โฮม</option><option>ตึกแถว/อาคารพาณิชย์</option><option>บ้านไม้</option><option>คอนโด/อพาร์ตเมนต์</option></select></label>
+<label class="f">อายุบ้าน (ปี)<input type="number" min="0" data-i="age"></label>
+<label class="f">พื้นที่ใช้สอย (ตร.ม.)<input type="number" min="0" data-i="area"></label>
+<label class="f">งบรีโนเวท (บาท)<input type="number" min="0" data-i="budget"></label>
+</div>
+<label class="f" style="margin-top:12px">เป้าหมายการรีโนเวท<textarea data-i="goal" placeholder="เช่น ขยายครัว ปรับห้องน้ำ เปลี่ยนหลังคา"></textarea></label>
+<label class="f" style="margin-top:12px">ห้อง/พื้นที่ที่จะตรวจ (บรรทัดละหนึ่งรายการ ใช้เลือกว่าปัญหาอยู่ที่ไหน)<textarea data-i="rooms" style="min-height:110px"></textarea></label>
+</div>
+<div class="card"><b>เกณฑ์ให้คะแนนแต่ละรายการ</b>
+<p class="hint" style="margin:6px 0 0">ดี = ใช้งานได้ปกติ · เล็กน้อย = สึกหรอ ซ่อมตามรอบได้ · ต้องซ่อม = ควรแก้ก่อนหรือพร้อมรีโนเวท · วิกฤต = เสี่ยงความปลอดภัย ต้องแก้ก่อนเริ่มงาน · ไม่มี = ไม่มีรายการนี้ในบ้าน</p></div>
+<button class="btn" data-go="check">เริ่มตรวจสภาพ</button>
+</section>
+
+<section id="check" hidden><div class="split"><aside id="cnav" class="noprint" aria-label="หมวดตรวจ"></aside><div>
+<div class="card" style="margin-top:12px"><b id="pt">ตรวจแล้ว 0 / 0 รายการ</b><div class="prog"><i id="pb"></i></div></div>
+<div class="card noprint" style="display:flex;gap:8px;flex-wrap:wrap"><input id="q" placeholder="ค้นหารายการ" aria-label="ค้นหา" style="flex:2 1 160px;margin:0"><select id="flt" aria-label="กรอง" style="flex:1 1 140px;margin:0"><option value="all">แสดงทั้งหมด</option><option value="todo">ยังไม่ตรวจ</option><option value="bad">พบปัญหา</option></select></div>
+<div id="cats"></div>
+<button class="btn" data-go="sum">ดูสรุปผล</button></div></div>
+</section>
+
+<section id="sum" hidden></section></div><div id="tt" hidden></div>
+<p class="hint noprint" style="margin-top:24px">เครื่องมือนี้ช่วยคัดกรองเบื้องต้นเท่านั้น ไม่แทนการตรวจโดยวิศวกรหรือสถาปนิกที่ได้รับใบอนุญาต ข้อมูลบันทึกอัตโนมัติ</p>
+</div>
+
+<script>
+const LV=[{k:0,t:"ดี",c:"var(--s0)"},{k:1,t:"เล็กน้อย",c:"var(--s1)"},{k:2,t:"ต้องซ่อม",c:"var(--s2)"},{k:3,t:"วิกฤต",c:"var(--s3)"}];
+const PEN=[0,.2,.55,1];
+const CATS=[
+{id:"st",n:"โครงสร้าง",w:3,items:[
+["รอยร้าวเสา/คาน","รอยร้าวเฉียง รอยร้าวกว้างกว่า 3 มม. หรือเหล็กเสริมโผล่"],
+["ฐานราก/การทรุดตัว","พื้นลาด ประตูหน้าต่างปิดไม่สนิท รอยร้าวตามมุม"],
+["พื้นชั้นบน/ท้องพื้น","แอ่นตัว สั่นสะเทือน คราบน้ำ เหล็กเป็นสนิมบวม"],
+["บันได/ราวกันตก","ความมั่นคง ความสูงราว ขั้นบันไดชำรุด"],
+["ผนังรับน้ำหนัก/ผนังก่อ","รอยแตกเป็นแนวบันได ผนังเอียงหรือพอง"]]},
+{id:"rf",n:"หลังคาและฝ้า",w:2,items:[
+["วัสดุมุงหลังคา","กระเบื้องแตก หลุด เสื่อมสภาพ สนิม"],
+["โครงหลังคา","จันทัน แป ปลวกกิน ไม้ผุ เหล็กเป็นสนิม"],
+["รางน้ำ/ครีบ/ปูนเกล็ด","อุดตัน รั่ว หลุด จุดต่อรอยตะเข็บ"],
+["ฝ้าเพดาน","คราบน้ำ ฝ้าหย่อน ราขึ้น"],
+["ฉนวนกันความร้อน","มี/ไม่มี สภาพยุบตัว เปียกชื้น"]]},
+{id:"mo",n:"ความชื้น รั่วซึม ปลวก",w:2.5,items:[
+["รั่วซึมผนังภายนอก","คราบน้ำ สีพอง ตะไคร่ ฝนสาดเข้า"],
+["รั่วซึมดาดฟ้า/กันสาด/ระเบียง","น้ำขัง รอยร้าวพื้น กันซึมหมดอายุ"],
+["ความชื้นจากพื้น/ผนังล่าง","ปูนร่อน เกลือขึ้น ผนังชื้นจากดิน"],
+["ปลวกและแมลงทำลายไม้","ทางเดินปลวก ขี้เลื่อย ไม้เป็นโพรง"],
+["เชื้อราในห้องปิด","กลิ่นอับ ราดำ ห้องน้ำ/ครัว/ใต้บันได"]]},
+{id:"el",n:"ระบบไฟฟ้า",w:2.5,items:[
+["ตู้เมนและเบรกเกอร์","ขนาดพอ มีเมนกันดูด (RCBO/ELCB) ติดตั้งเป็นระเบียบ"],
+["สายไฟและท่อร้อยสาย","ฉนวนแข็งกรอบ สายอลูมิเนียมเก่า ต่อสายไม่ถูกวิธี"],
+["ระบบสายดิน","มีหลักดิน ปลั๊กสามขามีสายดินจริง"],
+["ปลั๊ก สวิตช์ ดวงโคม","ร้อน ไหม้ หลวม จำนวนจุดพอต่อการใช้งาน"],
+["มิเตอร์และสายเมน","ขนาดมิเตอร์พอต่อการเพิ่มโหลด เช่น แอร์ เครื่องทำน้ำอุ่น"]]},
+{id:"pl",n:"ระบบประปาและสุขาภิบาล",w:2,items:[
+["ท่อน้ำดี","แรงดัน ท่อรั่ว สนิมในท่อเหล็ก น้ำขุ่น"],
+["ท่อน้ำทิ้ง/ท่อโสโครก","ระบายช้า กลิ่นย้อน ความลาดเอียงท่อ"],
+["ถังเก็บน้ำ/ปั๊ม","สะอาด ไม่รั่ว ปั๊มทำงานปกติ"],
+["ถังบำบัด/บ่อเกรอะ","ล้นหรือส่งกลิ่น ขนาดพอต่อจำนวนผู้ใช้"],
+["สุขภัณฑ์และห้องน้ำ","ชักโครกรั่ว พื้นกันซึม ระบายอากาศ"],
+["เครื่องทำน้ำอุ่น","ระบบสายดิน อายุ การรั่วซึม"]]},
+{id:"wf",n:"ผนัง พื้น และงานผิว",w:1,items:[
+["ผนังและงานฉาบ","แตกร้าวผิว ล่อน กะเทาะ เสียงกลวงเมื่อเคาะ"],
+["พื้น/กระเบื้อง/ไม้ปาร์เกต์","กระเบื้องกลวง ร่อน ไม้บวม ลื่น"],
+["สีและงานทาสี","ลอกร่อน ราขึ้น (ตรวจสีที่อาจมีสารตะกั่วในบ้านเก่ามาก)"],
+["วัสดุที่อาจมีแร่ใยหิน","กระเบื้องหลังคา ฝ้า ท่อเก่าก่อนปี 2540 ต้องตรวจก่อนรื้อ"]]},
+{id:"dw",n:"ประตู หน้าต่าง",w:1,items:[
+["วงกบและบานประตู","ปลวก บิดเบี้ยว ปิดไม่สนิท"],
+["วงกบและบานหน้าต่าง","รั่วซึม ซีลเสื่อม กระจกร้าว"],
+["อุปกรณ์ บานพับ กลอน","สนิม ฝืด ความปลอดภัยของกลอน"],
+["มุ้งลวดและเหล็กดัด","ขาด ขึ้นสนิม ทางหนีไฟ"]]},
+{id:"ex",n:"ภายนอกและสภาพแวดล้อม",w:1,items:[
+["รั้วและกำแพง","เอียง แตกร้าว ฐานราก"],
+["ระบบระบายน้ำรอบบ้าน","น้ำท่วมขัง ลาดเอียงพื้นรอบบ้านเข้าหาตัวบ้าน"],
+["ต้นไม้ใหญ่ใกล้ตัวบ้าน","รากชอนฐานราก กิ่งพาดหลังคา"],
+["ทางเข้าและที่จอดรถ","ถนนเข้าถึงสำหรับรถวัสดุ พื้นทรุด"]]}
+];
+const ALL=[];
+function buildAll(){ALL.length=0;CATS.forEach(c=>{c.items.forEach((it,i)=>ALL.push({id:c.id+i,cat:c,label:it[0],hint:it[1]}));((S.custom||{})[c.id]||[]).forEach(x=>ALL.push({id:x.id,cat:c,label:x.label,hint:"รายการที่เพิ่มเอง",custom:true}))})}
+let S={info:{},r:{},custom:{}},PID=null,UID=null,NAME="",DB=null,ENV={},T=null;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const LS=k=>"ha2:"+UID+":"+k;
+const col=()=>DB.collection("data/users/"+UID);
+function toast(m){const t=document.getElementById("tt");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
+async function initEnv(){try{if(window.claude){const u=await claude.use("user");if(u){const m=await u.me();if(m&&m.id)ENV.id=m.id,ENV.name=m.name||"ผู้ใช้ Claude"}ENV.db=ENV.id?await claude.use("db"):null}}catch(e){}}
+async function pList(){if(DB){try{return(await col().get()).docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.state)}catch(e){toast("โหลดจากบัญชีไม่สำเร็จ")}}
+ const o=[];try{const pre=LS("p:");for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith(pre))o.push({id:k.slice(pre.length),...JSON.parse(localStorage.getItem(k))})}}catch(e){}return o}
+async function pPut(id,d){if(DB){try{await col().doc(id).set(d);return}catch(e){toast("บันทึกลงบัญชีไม่สำเร็จ")}}try{localStorage.setItem(LS("p:"+id),JSON.stringify(d))}catch(e){}}
+async function pDel(id,d){try{const st=JSON.parse(d.state);for(const k in st.r)(st.r[k].p||[]).forEach(i=>imgDel(i))}catch(e){}if(DB){try{await col().doc(id).delete()}catch(e){}}else try{localStorage.removeItem(LS("p:"+id))}catch(e){}}
+const mk=(st,sc)=>({name:st.info.name||"โครงการไม่มีชื่อ",updated:Date.now(),score:sc,state:JSON.stringify(st)});
+function save(){clearTimeout(T);T=setTimeout(flushNow,700)}
+const DEFROOMS="ทั้งหลัง\nห้องนั่งเล่น\nห้องนอน\nห้องครัว\nห้องน้ำ\nภายนอกบ้าน";
+const rooms=()=>(S.info.rooms||DEFROOMS).split("\n").map(x=>x.trim()).filter(Boolean);
+const IM={};
+const thumb=i=>`<span class="th"><img data-im="${i}" alt="รูปหน้างาน"><button data-pd="${i}" aria-label="ลบรูป">×</button></span>`;
+function shrink(f,q){return new Promise((ok,no)=>{const im=new Image,u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",q))};im.onerror=no;im.src=u})}
+async function imgPut(id,u){IM[id]=u;if(DB){try{await col().doc("img_"+id).set({img:u,pid:PID});return}catch(e){toast("บันทึกรูปลงบัญชีไม่สำเร็จ")}}try{localStorage.setItem(LS("i:"+id),u)}catch(e){toast("พื้นที่เก็บรูปในเครื่องเต็ม")}}
+async function imgGet(id){if(IM[id])return IM[id];let u=null;if(DB){try{const d=await col().doc("img_"+id).get();u=d.exists?d.data().img:null}catch(e){}}if(!u)try{u=localStorage.getItem(LS("i:"+id))}catch(e){}if(u)IM[id]=u;return u}
+async function imgDel(id){delete IM[id];if(DB)try{await col().doc("img_"+id).delete()}catch(e){}try{localStorage.removeItem(LS("i:"+id))}catch(e){}}
+function hydrate(root){(root||document).querySelectorAll("img[data-im]:not([src])").forEach(async im=>{const u=await imgGet(im.dataset.im);if(u)im.src=u})}
+async function flushNow(){clearTimeout(T);if(PID)await pPut(PID,mk(S,calc().score))}
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const baht=n=>Math.round(n).toLocaleString("th-TH");
+const esc=s=>String(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+// info
+function loadInfo(){$$("[data-i]").forEach(el=>{const k=el.dataset.i;if(S.info[k]===undefined)S.info[k]=el.tagName==="SELECT"?el.options[0].value:(k==="date"?new Date().toISOString().slice(0,10):k==="rooms"?DEFROOMS:"");el.value=S.info[k]})}
+$$("[data-i]").forEach(el=>el.oninput=()=>{S.info[el.dataset.i]=el.value;save()});
+// checklist
+function row(a){const r=S.r[a.id]||{};const open=typeof r.s==="number"&&r.s>=1;
+ return `<div class="it" data-id="${a.id}" data-s="${r.s===undefined||r.s===null?"":r.s}"><b>${a.label}</b><div class="hint">${a.hint}${a.custom?` · <a href="#" data-rm>ลบรายการนี้</a>`:""}</div>
+ <div class="seg">${LV.map(l=>`<button data-v="${l.k}" class="${r.s===l.k?"on":""}">${l.t}</button>`).join("")}<button data-v="na" class="${r.s==="na"?"on":""}">ไม่มี</button></div>
+ <div class="det" ${open?"":"hidden"}><label class="f" style="grid-column:1/-1">บันทึก/อาการที่พบ<textarea data-f="n">${esc(r.n)}</textarea></label>
+ <label class="f">ห้อง/พื้นที่<select data-f="room"><option value="">ไม่ระบุ</option>${rooms().map(x=>`<option${r.room===x?" selected":""}>${esc(x)}</option>`).join("")}</select></label>
+ <label class="f">ค่าซ่อม (บาท)<input type="number" min="0" data-f="c" value="${r.c||""}"></label>
+ <div class="ph" style="grid-column:1/-1">${(r.p||[]).map(thumb).join("")}<label class="btn g">เพิ่มรูป<input type="file" accept="image/*" multiple hidden data-ph></label></div></div></div>`}
+function renderCats(){$("#cats").innerHTML=CATS.map(c=>`<div class="card cat" id="cat-${c.id}"><h2>${c.n}</h2><div class="w">น้ำหนักความสำคัญ ${c.w}/3</div>${ALL.filter(a=>a.cat===c).map(row).join("")}<div class="add noprint"><input placeholder="เพิ่มรายการตรวจของคุณเอง" aria-label="เพิ่มรายการ"><button class="btn g" data-add="${c.id}">เพิ่ม</button></div></div>`).join("");prog();applyFilter();hydrate($("#cats"))}
+function prog(){const t=ALL.length,d=ALL.filter(a=>S.r[a.id]&&S.r[a.id].s!==undefined&&S.r[a.id].s!==null).length;
+ $("#pt").textContent=`ตรวจแล้ว ${d} / ${t} รายการ`;$("#pb").style.width=(d/t*100)+"%";renderNav();live()}
+$("#cats").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b)return;
+ const id=b.closest(".it").dataset.id,v=b.dataset.v==="na"?"na":+b.dataset.v;
+ const r=S.r[id]=S.r[id]||{};r.s=r.s===v?null:v;save();
+ const it=b.closest(".it");it.dataset.s=r.s===null?"":r.s;it.querySelectorAll(".seg button").forEach(x=>x.classList.toggle("on",r.s!==null&&String(r.s)===x.dataset.v));
+ it.querySelector(".det").hidden=!(typeof r.s==="number"&&r.s>=1);prog()});
+$("#cats").addEventListener("input",e=>{const f=e.target.dataset.f;if(!f)return;
+ const id=e.target.closest(".it").dataset.id;(S.r[id]=S.r[id]||{})[f]=e.target.value;save();live()});
+
+// summary
+function calc(){let pen=0,max=0,rated=0,cost=0,crit=[],list=[];const cs={};
+ CATS.forEach(c=>cs[c.id]={p:0,m:0,n:0});
+ ALL.forEach(a=>{const r=S.r[a.id];if(!r||typeof r.s!=="number")return;rated++;
+  pen+=a.cat.w*PEN[r.s];max+=a.cat.w;cs[a.cat.id].p+=PEN[r.s];cs[a.cat.id].m++;
+  const c=+r.c||0;cost+=c;if(r.s>=1)list.push({a,s:r.s,n:r.n||"",c,room:r.room||"",p:r.p||[]});if(r.s===3)crit.push(a)});
+ return{score:max?Math.round(100*(1-pen/max)):null,rated,cost,list,crit,cs}}
+function verdict(k){const sc=k.score;
+ if(sc===null)return{t:"ยังไม่มีข้อมูล",d:"ไปที่ขั้นตอนตรวจสภาพ แล้วให้คะแนนอย่างน้อยหนึ่งรายการ",c:"var(--na)"};
+ const sCrit=k.crit.some(a=>a.cat.id==="st"||a.cat.id==="el");
+ if(sCrit)return{t:"หยุดก่อน: ต้องให้วิศวกรตรวจ",d:"พบรายการวิกฤตด้านโครงสร้างหรือไฟฟ้า ควรให้ผู้เชี่ยวชาญประเมินและแก้ไขก่อนออกแบบหรือเริ่มงานรีโนเวท",c:"var(--s3)"};
+ if(sc>=80)return{t:"สภาพดี รีโนเวทได้ตามแผน",d:"งานส่วนใหญ่เป็นการปรับปรุงผิวและฟังก์ชัน แก้รายการที่พบก่อนหรือพร้อมงานหลัก",c:"var(--s0)"};
+ if(sc>=60)return{t:"สภาพปานกลาง แก้ระบบก่อนตกแต่ง",d:"ควรแก้งานรั่วซึมและระบบไฟ/ประปาก่อนงานผิวและงานตกแต่ง เผื่อบานปลายในงบ",c:"var(--s1)"};
+ if(sc>=40)return{t:"ทรุดโทรมมาก ต้องทำใหญ่",d:"ค่าใช้จ่ายและระยะเวลาจะสูงกว่าปกติ ควรเทียบกับการสร้างใหม่ และขอใบเสนอราคาหลายราย",c:"var(--s2)"};
+ return{t:"ไม่แนะนำให้รีโนเวทโดยไม่ตรวจเชิงลึก",d:"คะแนนต่ำมาก ควรให้วิศวกรประเมินความคุ้มค่าเทียบกับการรื้อสร้างใหม่",c:"var(--s3)"}}
+function summary(){const k=calc(),v=verdict(k),I=S.info,bud=+I.budget||0,cont=k.cost*.15,tot=k.cost+cont;
+ const pr=k.list.slice().sort((a,b)=>b.s-a.s||b.a.cat.w-a.a.cat.w||b.c-a.c);
+ const unrated=ALL.length-k.rated;
+ let h=`<div class="card" style="margin-top:12px"><b>${esc(I.name)||"ไม่ระบุชื่อโครงการ"}</b><div class="hint">${esc(I.addr)} ${I.type?"· "+esc(I.type):""} ${I.age?"· อายุ "+esc(I.age)+" ปี":""} ${I.area?"· "+esc(I.area)+" ตร.ม.":""}<br>ผู้ตรวจ ${esc(I.who)||"-"} · วันที่ ${esc(I.date)||"-"}</div></div>
+ <div class="card score"><div class="ring" style="background:conic-gradient(${v.c} ${(k.score||0)*3.6}deg,var(--line) 0)"><span>${k.score===null?"-":k.score}</span></div>
+ <div class="verdict"><h2 style="color:${v.c}">${v.t}</h2><div>${v.d}</div><div class="hint">คะแนนสภาพบ้าน 0–100 จาก ${k.rated} รายการที่ตรวจ${unrated?` (ยังไม่ตรวจ ${unrated} รายการ)`:""}</div></div></div>`;
+ if(k.crit.length)h+=`<div class="card"><b>รายการวิกฤตที่ต้องแก้ก่อนเริ่มงาน</b>${k.crit.map(a=>`<div class="alert"><b>${a.cat.n}: ${a.label}</b><br><span class="hint">${esc((S.r[a.id]||{}).n)||a.hint}</span></div>`).join("")}</div>`;
+ h+=`<div class="card"><b>คะแนนแยกหมวด</b>${CATS.map(c=>{const x=k.cs[c.id],p=x.m?Math.round(100*(1-x.p/x.m)):null,col=p===null?"var(--na)":p>=80?"var(--s0)":p>=60?"var(--s1)":p>=40?"var(--s2)":"var(--s3)";
+  return`<div class="bar"><span class="t">${c.n}</span><span class="b"><i style="width:${p||0}%;background:${col}"></i></span><span style="width:36px;text-align:right">${p===null?"-":p}</span></div>`}).join("")}</div>`;
+ h+=`<div class="card"><b>งบประมาณ</b><div class="scroll"><table><tr><td>ค่าซ่อมรวมตามที่ประเมิน</td><td class="n">${baht(k.cost)} บาท</td></tr>
+ <tr><td>เผื่อค่าใช้จ่ายไม่คาดคิด 15%</td><td class="n">${baht(cont)} บาท</td></tr>
+ <tr><td><b>รวมที่ควรเตรียม</b></td><td class="n"><b>${baht(tot)} บาท</b></td></tr>
+ ${bud?`<tr><td>งบรีโนเวทของเจ้าของบ้าน</td><td class="n">${baht(bud)} บาท</td></tr>
+ <tr><td>${tot>bud?"งานซ่อมสภาพกินงบเกิน":"งบเหลือสำหรับงานปรับปรุงตามเป้าหมาย"}</td><td class="n" style="color:${tot>bud?"var(--s3)":"var(--s0)"}">${baht(Math.abs(bud-tot))} บาท</td></tr>
+ <tr><td>สัดส่วนงบที่ใช้ซ่อมสภาพ</td><td class="n">${Math.round(tot/bud*100)}%</td></tr>`:""}</table></div></div>`;
+ h+=`<div class="card"><b>ลำดับงานที่ควรทำ</b><div class="hint">เรียงตามความรุนแรง แล้วตามความสำคัญของหมวด</div>`+(pr.length?`<div class="scroll"><table><tr><th>รายการ</th><th>ระดับ</th><th>บันทึก</th><th class="n">บาท</th></tr>${pr.map(x=>`<tr><td>${x.a.cat.n}<br><b>${x.a.label}</b>${x.room?`<br><span class="hint">${esc(x.room)}</span>`:""}</td><td><span class="tag" style="background:${LV[x.s].c}">${LV[x.s].t}</span></td><td>${esc(x.n)}${x.p.map(i=>`<br><img class="sm" data-im="${i}" alt="รูปหน้างาน">`).join("")}</td><td class="n">${x.c?baht(x.c):"-"}</td></tr>`).join("")}</table></div>`:`<p class="hint">ยังไม่พบรายการที่ต้องแก้</p>`)+`</div>`;
+ h+=extra(k)+roomCard(k);h+=`<div class="card"><b>ขั้นตอนถัดไป</b><ol style="margin:6px 0 0;padding-left:20px">
+ <li>แก้ปัญหาโครงสร้าง ไฟฟ้า และรั่วซึมก่อนงานผิวและงานตกแต่ง</li>
+ <li>ขอใบเสนอราคาจากผู้รับเหมาอย่างน้อย 3 ราย โดยแนบรายการนี้</li>
+ <li>บ้านที่ต้องต่อเติมหรือรื้อผนัง ตรวจกฎหมายควบคุมอาคาร และขออนุญาตก่อนเริ่มงาน</li>
+ <li>ตรวจซ้ำหลังรื้อถอน เพราะปัญหาซ่อนในผนังและฝ้ามักพบเพิ่ม</li></ol></div>
+ <div class="noprint"><button class="btn" onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button>
+ <button class="btn g" id="cp">คัดลอกสรุปเป็นข้อความ</button>
+ <button class="btn g" id="xc">ส่งออก CSV</button>
+ <button class="btn g" id="xj">สำรองข้อมูล JSON</button>
+ <button class="btn g" id="rs">ล้างผลตรวจโครงการนี้</button><span id="msg" class="hint"></span></div>`;
+ $("#sum").innerHTML=h;hydrate($("#sum"));
+ $("#cp").onclick=()=>{const t=`สรุปประเมินสภาพบ้าน: ${I.name||"-"}\nคะแนน ${k.score??"-"}/100 - ${v.t}\nค่าซ่อมรวม ${baht(k.cost)} บาท (รวมสำรอง ${baht(tot)} บาท)\n\nรายการที่ต้องแก้:\n`+pr.map(x=>`- [${LV[x.s].t}] ${x.a.cat.n}: ${x.a.label}${x.n?" ("+x.n+")":""}${x.c?" ~"+baht(x.c)+" บาท":""}`).join("\n");
+  const ok=()=>$("#msg").textContent="คัดลอกแล้ว";try{navigator.clipboard.writeText(t).then(ok,()=>fb(t,ok))}catch(e){fb(t,ok)}};
+ const nm=(S.info.name||"บ้าน");
+ $("#xc").onclick=()=>dl(nm+"-ผลตรวจ.csv",csv());$("#xj").onclick=()=>dl(nm+"-สำรอง.json",JSON.stringify(S));
+ $("#rs").onclick=e=>twice(e.target,()=>{S.r={};save();buildAll();renderCats();summary()})}
+function roomCard(k){const m={};k.list.forEach(x=>{const r=x.room||"ไม่ระบุห้อง";(m[r]=m[r]||{n:0,c:0}).n++;m[r].c+=x.c});const e=Object.entries(m);if(!e.length)return"";
+ return`<div class="card"><b>สรุปตามห้อง/พื้นที่</b><div class="scroll"><table><tr><th>ห้อง/พื้นที่</th><th class="n">รายการที่ต้องแก้</th><th class="n">ค่าซ่อม (บาท)</th></tr>${e.map(([r,v])=>`<tr><td>${esc(r)}</td><td class="n">${v.n}</td><td class="n">${baht(v.c)}</td></tr>`).join("")}</table></div></div>`}
+function extra(k){const PH=[["ด่วนก่อนเริ่มงาน",x=>x.s===3],["ระยะ 1 โครงสร้างและกันน้ำ",x=>x.s<3&&["st","rf","mo"].includes(x.a.cat.id)],["ระยะ 2 ระบบไฟฟ้าและประปา",x=>x.s<3&&["el","pl"].includes(x.a.cat.id)],["ระยะ 3 งานผิว ประตูหน้าต่าง ภายนอก",x=>x.s<3&&["wf","dw","ex"].includes(x.a.cat.id)]];
+ const sum=L=>L.reduce((t,x)=>t+x.c,0);
+ let h=`<div class="card"><b>แผนงานแบ่งระยะ</b><div class="scroll"><table><tr><th>ระยะ</th><th class="n">รายการ</th><th class="n">ค่าซ่อม (บาท)</th></tr>`+PH.map(([t,f])=>{const L=k.list.filter(f);return`<tr><td>${t}</td><td class="n">${L.length}</td><td class="n">${baht(sum(L))}</td></tr>`}).join("")+`</table></div></div>`;
+ const v=CATS.map(c=>sum(k.list.filter(x=>x.a.cat===c))),mx=Math.max(1,...v);
+ return h+`<div class="card"><b>ค่าซ่อมแยกหมวด</b>`+CATS.map((c,i)=>`<div class="bar"><span class="t">${c.n}</span><span class="b"><i style="width:${v[i]/mx*100}%;background:var(--acc)"></i></span><span style="width:80px;text-align:right">${baht(v[i])}</span></div>`).join("")+`</div>`}
+function csv(){const R=[["หมวด","รายการ","ระดับ","บันทึก","ค่าซ่อม","ห้อง/พื้นที่"]];ALL.forEach(a=>{const r=S.r[a.id];if(!r||r.s===undefined||r.s===null)return;R.push([a.cat.n,a.label,r.s==="na"?"ไม่มี":LV[r.s].t,r.n||"",r.c||"",r.room||""])});return"\ufeff"+R.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n")}
+async function dl(name,data){if(!window.claude){try{const b=new Blob([data],{type:"text/plain;charset=utf-8"}),l=document.createElement("a");l.href=URL.createObjectURL(b);l.download=name;document.body.appendChild(l);l.click();l.remove();toast("ดาวน์โหลดไฟล์แล้ว")}catch(e){toast("ดาวน์โหลดไม่สำเร็จ")}return}try{const d=await claude.use("downloads");if(!d)throw 0;const r=await d.save({filename:name,data});toast("บันทึกไฟล์แล้ว")}catch(e){toast("บันทึกไฟล์ไม่สำเร็จ หรือมุมมองนี้ไม่รองรับ")}}
+function twice(b,fn){if(b.dataset.arm){fn();return}b.dataset.arm=1;const t=b.textContent;b.textContent="กดอีกครั้งเพื่อยืนยัน";setTimeout(()=>{delete b.dataset.arm;b.textContent=t},3000)}
+function fb(t,ok){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){}a.remove()}
+
+// tabs
+function tab(n){["info","check","sum"].forEach(x=>$("#"+x).hidden=x!==n);
+ $$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.tab===n));if(n==="sum")summary();if(n==="check")renderCats();window.scrollTo(0,0)}
+$$("[data-tab]").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+$$("[data-go]").forEach(b=>b.onclick=()=>tab(b.dataset.go));
+
+function applyFilter(){const q=$("#q").value.trim().toLowerCase(),f=$("#flt").value;$$("#cats .it").forEach(it=>{const r=S.r[it.dataset.id]||{},has=r.s!==undefined&&r.s!==null;let ok=!q||it.textContent.toLowerCase().includes(q);if(f==="todo")ok=ok&&!has;if(f==="bad")ok=ok&&typeof r.s==="number"&&r.s>=1;it.hidden=!ok})}
+$("#q").oninput=applyFilter;$("#flt").onchange=applyFilter;
+$("#cats").addEventListener("click",e=>{const a=e.target.closest("[data-add]");
+ if(a){const t=a.previousElementSibling.value.trim();if(!t)return;const c=a.dataset.add;(S.custom[c]=S.custom[c]||[]).push({id:c+"x"+uid(),label:t});save();buildAll();renderCats();return}
+ const d=e.target.closest("[data-rm]");if(d){e.preventDefault();const id=d.closest(".it").dataset.id;for(const c in S.custom)S.custom[c]=S.custom[c].filter(x=>x.id!==id);delete S.r[id];save();buildAll();renderCats()}});
+
+function renderNav(){$("#cnav").innerHTML=CATS.map(c=>{const L=ALL.filter(a=>a.cat===c),d=L.filter(a=>{const r=S.r[a.id];return r&&r.s!==undefined&&r.s!==null}).length;return`<a href="#cat-${c.id}" data-c="${c.id}" class="${d===L.length?"done":""}"><span>${c.n}</span><em>${d===L.length?"ครบ":d+"/"+L.length}</em></a>`}).join("")}
+$("#cnav").addEventListener("click",e=>{const a=e.target.closest("[data-c]");if(!a)return;e.preventDefault();$("#cat-"+a.dataset.c).scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})});
+function live(){const k=calc(),el=$("#live");el.innerHTML=k.score===null?"ยังไม่ได้ตรวจ":`คะแนน <b>${k.score}</b> · ซ่อม ${baht(k.cost)} บ.`;el.style.setProperty("--c",verdict(k).c)}
+$("#cats").addEventListener("click",async e=>{const x=e.target.closest("[data-pd]");
+ if(x){const r=S.r[x.closest(".it").dataset.id],id=x.dataset.pd;r.p=(r.p||[]).filter(i=>i!==id);await imgDel(id);save();x.closest(".th").remove();return}
+ const im=e.target.closest("img[data-im]");if(im)im.classList.toggle("big")});
+$("#cats").addEventListener("change",async e=>{if(!("ph" in e.target.dataset))return;const it=e.target.closest(".it"),r=S.r[it.dataset.id]=S.r[it.dataset.id]||{};r.p=r.p||[];
+ for(const f of [...e.target.files]){if(r.p.length>=4){toast("แนบได้สูงสุด 4 รูปต่อรายการ");break}
+  try{let u=await shrink(f,.6);if(u.length>230000)u=await shrink(f,.4);const id=uid();await imgPut(id,u);r.p.push(id)}catch(x){toast("แนบรูปไม่สำเร็จ")}}
+ e.target.value="";save();const box=it.querySelector(".ph");box.querySelectorAll(".th").forEach(n=>n.remove());box.insertAdjacentHTML("afterbegin",r.p.map(thumb).join(""));hydrate(box)});
+// ---- views / auth / projects ----
+const VIEWS=["login","projects","app"];
+function show(v){VIEWS.forEach(x=>$("#"+x).hidden=x!==v);$("#bar").hidden=v==="login";$("#bk").hidden=v!=="app";$("#live").hidden=v!=="app";window.scrollTo(0,0)}
+function loginUI(msg){show("login");PID=null;AM="in";
+ $("#lm").innerHTML=msg||"";
+ $("#lf").innerHTML=ENV.id?`<p>บัญชีที่ใช้งาน: <b>${esc(ENV.name)}</b></p><button class="btn" data-l="cl">เข้าสู่ระบบ</button>`
+ :authUI()}
+function enter(kind,name){if(kind==="cl"){UID=ENV.id;NAME=ENV.name;DB=ENV.db||null}else{UID="local:"+name;NAME=name;DB=null}
+ try{localStorage.setItem("ha2:s",JSON.stringify({k:kind,n:name||""}))}catch(e){}
+ $("#bu").textContent="ผู้ใช้: "+NAME+(DB?"":" (เครื่องนี้)");showProjects()}
+let AM="in";
+function authUI(){const up=AM==="up";return`<div class="seg2"><button data-l="m-in" class="${up?"":"on"}">เข้าสู่ระบบ</button><button data-l="m-up" class="${up?"on":""}">สมัครสมาชิก</button></div>
+<label class="f">ชื่อผู้ใช้<input id="ln" maxlength="30" autocomplete="username"></label>
+<label class="f" style="margin-top:10px">รหัสผ่าน<input id="lp" type="password" autocomplete="${up?"new-password":"current-password"}"></label>
+${up?`<label class="f" style="margin-top:10px">ยืนยันรหัสผ่าน<input id="lp2" type="password" autocomplete="new-password"></label>`:""}
+<button class="btn" data-l="${up?"reg":"login"}" style="margin-top:14px">${up?"สมัครและเข้าสู่ระบบ":"เข้าสู่ระบบ"}</button>
+<p class="hint" style="margin-top:12px">บัญชีและข้อมูลเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น ไม่มีเซิร์ฟเวอร์ ลืมรหัสผ่านแล้วกู้คืนไม่ได้</p>`}
+const enc=new TextEncoder(),b64=u=>btoa(String.fromCharCode(...u)),unb=t=>Uint8Array.from(atob(t),c=>c.charCodeAt(0)),akey=n=>"ha2:acct:"+n.toLowerCase();
+async function hashPw(pw,salt){const k=await crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]);return b64(new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:150000},k,256)))}
+$("#lf").addEventListener("click",async e=>{const b=e.target.closest("[data-l]");if(!b)return;const a=b.dataset.l;
+ if(a==="cl")return enter("cl");
+ if(a==="m-in"||a==="m-up"){AM=a==="m-up"?"up":"in";$("#lf").innerHTML=authUI();return}
+ if(!(window.crypto&&crypto.subtle)){toast("เบราว์เซอร์นี้ไม่รองรับการเข้ารหัสรหัสผ่าน");return}
+ const n=$("#ln").value.trim(),p=$("#lp").value;if(!n||!p){toast("กรอกชื่อผู้ใช้และรหัสผ่านให้ครบ");return}
+ try{
+  if(a==="reg"){if(p.length<6){toast("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");return}
+   if(p!==$("#lp2").value){toast("รหัสผ่านทั้งสองช่องไม่ตรงกัน");return}
+   if(localStorage.getItem(akey(n))){toast("ชื่อผู้ใช้นี้ถูกใช้แล้ว");return}
+   const salt=crypto.getRandomValues(new Uint8Array(16));
+   localStorage.setItem(akey(n),JSON.stringify({name:n,salt:b64(salt),h:await hashPw(p,salt)}));enter("lc",n)}
+  else{const raw=localStorage.getItem(akey(n)),ac=raw&&JSON.parse(raw);
+   if(!ac||await hashPw(p,unb(ac.salt))!==ac.h){await new Promise(r=>setTimeout(r,700));toast("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");return}
+   enter("lc",ac.name)}
+ }catch(x){toast("ทำรายการไม่สำเร็จ")}});
+$("#lo").onclick=async()=>{await flushNow();try{localStorage.removeItem("ha2:s")}catch(e){}UID=null;DB=null;S={info:{},r:{},custom:{}};loginUI("ออกจากระบบแล้ว")};
+$("#bk").onclick=async()=>{await flushNow();showProjects()};
+
+function openProject(id,d){try{S=JSON.parse(d.state)}catch(e){S={}}S.info=S.info||{};S.r=S.r||{};S.custom=S.custom||{};PID=id;buildAll();loadInfo();$("#q").value="";$("#flt").value="all";renderCats();tab("info");show("app")}
+async function showProjects(){PID=null;show("projects");const P=$("#projects");P.innerHTML='<p class="hint">กำลังโหลดโครงการ...</p>';
+ const L=await pList();L.sort((a,b)=>(b.updated||0)-(a.updated||0));
+ P.innerHTML=`<div class="card" style="margin-top:12px"><b>โครงการของคุณ</b><div class="hint">แต่ละโครงการเก็บผลตรวจแยกกัน</div><div style="margin-top:8px"><button class="btn" data-n="1">สร้างโครงการใหม่</button><button class="btn g" data-imp="1">นำเข้าไฟล์สำรอง (.json)</button><input type="file" id="imp" accept=".json,application/json" hidden></div></div>`+
+ (L.length?L.map(p=>`<div class="card" data-p="${esc(p.id)}"><b>${esc(p.name)}</b><div class="hint">${p.score==null?"ยังไม่ได้ตรวจ":"คะแนน "+p.score+"/100"} · แก้ไขล่าสุด ${new Date(p.updated||0).toLocaleDateString("th-TH")}</div><div style="margin-top:8px"><button class="btn" data-a="open">เปิด</button><button class="btn g" data-a="dup">ทำสำเนา</button><button class="btn g" data-a="del">ลบ</button></div></div>`).join(""):`<div class="card"><p style="margin:0">ยังไม่มีโครงการ กด "สร้างโครงการใหม่" เพื่อเริ่มตรวจบ้านหลังแรก</p></div>`)}
+async function createFrom(st){const id=uid();await pPut(id,mk(st,null));openProject(id,{state:JSON.stringify(st)})}
+$("#projects").addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.n)return createFrom({info:{},r:{},custom:{}});
+ if(b.dataset.imp)return $("#imp").click();
+ const id=b.closest("[data-p]").dataset.p,d=(await pList()).find(p=>p.id===id);if(!d)return;
+ if(b.dataset.a==="open")openProject(id,d);
+ else if(b.dataset.a==="dup"){const st=JSON.parse(d.state);for(const k in st.r)delete st.r[k].p;toast("ทำสำเนาไม่รวมรูปถ่าย");st.info=st.info||{};st.info.name=(st.info.name||"โครงการ")+" (สำเนา)";await pPut(uid(),mk(st,d.score));showProjects()}
+ else if(b.dataset.a==="del")twice(b,async()=>{await pDel(id,d);showProjects()})});
+$("#projects").addEventListener("change",async e=>{if(e.target.id!=="imp"||!e.target.files[0])return;
+ try{const st=JSON.parse(await e.target.files[0].text());if(!st||typeof st.r!=="object"||typeof st.info!=="object")throw 0;st.custom=st.custom||{};for(const k in st.r)delete st.r[k].p;createFrom(st)}catch(x){toast("ไฟล์สำรองไม่ถูกต้อง")}});
+
+(async()=>{show("login");await initEnv();let ss=null;try{ss=JSON.parse(localStorage.getItem("ha2:s"))}catch(e){}
+ if(ss&&ss.k==="cl"&&ENV.id)return enter("cl");
+ if(ss&&ss.k==="lc"&&ss.n&&!ENV.id&&localStorage.getItem(akey(ss.n)))return enter("lc",ss.n);
+ loginUI("เลือกวิธีเข้าใช้งานเพื่อเริ่มต้น")})();
+</script>
+</body>
+</html>
